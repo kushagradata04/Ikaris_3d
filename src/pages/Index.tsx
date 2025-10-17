@@ -45,7 +45,7 @@ const Index = () => {
               variant={showEditor ? "default" : "outline"}
               size="sm"
               onClick={() => setShowEditor(!showEditor)}
-              className="rounded-lg"
+              className="rounded-[8px]"
             >
               <Settings2 className="h-4 w-4 mr-2" />
               UI Editor
