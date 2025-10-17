@@ -1,6 +1,6 @@
 import { Maximize2, ZoomIn, ZoomOut, Grid3x3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import chairProduct from "@/assets/chair-product.png";
+import chairProduct from "@/assets/reference-3.png";
 
 interface ProductViewerProps {
   layout: "default" | "alternate";

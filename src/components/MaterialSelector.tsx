@@ -57,11 +57,11 @@ const materials: MaterialType[] = [
   },
 ];
 
+const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
+
 export const MaterialSelector = ({ fontConfig }: MaterialSelectorProps) => {
   const [selectedMaterial, setSelectedMaterial] = useState("LEATHER");
   const [selectedColor, setSelectedColor] = useState("#3d3230");
-
-  const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
   return (
     <div className="space-y-6">

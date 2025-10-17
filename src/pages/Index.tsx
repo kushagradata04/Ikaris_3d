@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductViewer } from "@/components/ProductViewer";
 import { CustomizationPanel } from "@/components/CustomizationPanel";
 import UIEditor from "@/components/UIEditor";
 import { Settings2, LayoutGrid } from "lucide-react";
+
+// Load Google Fonts
+const loadGoogleFonts = () => {
+  const link = document.createElement('link');
+  link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap';
+  link.rel = 'stylesheet';
+  document.head.appendChild(link);
+};
 
 const Index = () => {
   const [showEditor, setShowEditor] = useState(false);
@@ -15,6 +23,11 @@ const Index = () => {
       fontSize: 16,
     }
   });
+
+  // Load Google Fonts on component mount
+  useEffect(() => {
+    loadGoogleFonts();
+  }, []);
 
   const handleConfigChange = (config: any) => {
     setUIConfig(config);
