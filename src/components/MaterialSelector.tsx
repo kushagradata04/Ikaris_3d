@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface ColorOption {
   name: string;
@@ -9,6 +8,14 @@ interface ColorOption {
 interface MaterialType {
   name: string;
   colors: ColorOption[];
+}
+
+interface MaterialSelectorProps {
+  fontConfig: {
+    fontFamily: string;
+    fontWeight: string;
+    fontSize: number;
+  };
 }
 
 const materials: MaterialType[] = [
@@ -50,15 +57,24 @@ const materials: MaterialType[] = [
   },
 ];
 
-export const MaterialSelector = () => {
+export const MaterialSelector = ({ fontConfig }: MaterialSelectorProps) => {
   const [selectedMaterial, setSelectedMaterial] = useState("LEATHER");
   const [selectedColor, setSelectedColor] = useState("#3d3230");
+
+  const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
   return (
     <div className="space-y-6">
       {materials.map((material) => (
         <div key={material.name} className="space-y-3">
-          <h3 className="text-sm font-medium text-muted-foreground tracking-wide">
+          <h3 
+            className="text-sm font-medium text-muted-foreground tracking-wide"
+            style={{
+              fontFamily: fontConfig.fontFamily,
+              fontWeight: fontConfig.fontWeight,
+              fontSize: `${Math.max(10, fontConfig.fontSize - 4)}px`
+            }}
+          >
             {material.name}
           </h3>
           <div className="grid grid-cols-6 gap-3">
