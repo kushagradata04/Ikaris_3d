@@ -1,0 +1,371 @@
+import { useState } from "react";
+import { Settings, Type, Square, Image, Layout, Palette } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface UIEditorProps {
+  onConfigChange: (config: any) => void;
+}
+
+export const UIEditor = ({ onConfigChange }: UIEditorProps) => {
+  const [config, setConfig] = useState({
+    typography: {
+      fontFamily: "Inter",
+      fontWeight: "400",
+      fontSize: 16,
+    },
+    button: {
+      borderRadius: 12,
+      shadow: "medium",
+      alignment: "center",
+      backgroundColor: "#ef4444",
+      textColor: "#ffffff",
+    },
+    gallery: {
+      alignment: "center",
+      spacing: 12,
+      borderRadius: 8,
+    },
+    layout: {
+      cardRadius: 16,
+      containerPadding: 24,
+      backgroundColor: "#ffffff",
+    },
+    stroke: {
+      color: "#e5e5e5",
+      weight: 1,
+    },
+  });
+
+  const updateConfig = (section: string, key: string, value: any) => {
+    const newConfig = {
+      ...config,
+      [section]: {
+        ...config[section as keyof typeof config],
+        [key]: value,
+      },
+    };
+    setConfig(newConfig);
+    onConfigChange(newConfig);
+  };
+
+  return (
+    <div className="w-full lg:w-80 bg-panel rounded-2xl shadow-lg overflow-hidden">
+      <div className="p-4 border-b border-border bg-secondary/50">
+        <div className="flex items-center gap-2">
+          <Settings className="h-5 w-5 text-foreground" />
+          <h2 className="font-semibold text-foreground">UI Editor</h2>
+        </div>
+      </div>
+
+      <ScrollArea className="h-[calc(100vh-12rem)]">
+        <div className="p-4">
+          <Tabs defaultValue="typography" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 bg-secondary h-auto p-1">
+              <TabsTrigger value="typography" className="text-xs py-2">
+                <Type className="h-3 w-3 mr-1" />
+                Type
+              </TabsTrigger>
+              <TabsTrigger value="button" className="text-xs py-2">
+                <Square className="h-3 w-3 mr-1" />
+                Button
+              </TabsTrigger>
+              <TabsTrigger value="gallery" className="text-xs py-2">
+                <Image className="h-3 w-3 mr-1" />
+                Gallery
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="typography" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Font Family</Label>
+                <Select
+                  value={config.typography.fontFamily}
+                  onValueChange={(value) => updateConfig("typography", "fontFamily", value)}
+                >
+                  <SelectTrigger className="rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Inter">Inter</SelectItem>
+                    <SelectItem value="Roboto">Roboto</SelectItem>
+                    <SelectItem value="Poppins">Poppins</SelectItem>
+                    <SelectItem value="Open Sans">Open Sans</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Font Weight</Label>
+                <Select
+                  value={config.typography.fontWeight}
+                  onValueChange={(value) => updateConfig("typography", "fontWeight", value)}
+                >
+                  <SelectTrigger className="rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="400">Regular (400)</SelectItem>
+                    <SelectItem value="500">Medium (500)</SelectItem>
+                    <SelectItem value="600">Semibold (600)</SelectItem>
+                    <SelectItem value="700">Bold (700)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Font Size: {config.typography.fontSize}px
+                </Label>
+                <Slider
+                  value={[config.typography.fontSize]}
+                  onValueChange={(value) => updateConfig("typography", "fontSize", value[0])}
+                  min={10}
+                  max={60}
+                  step={1}
+                  className="py-4"
+                />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="button" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Border Radius: {config.button.borderRadius}px
+                </Label>
+                <Slider
+                  value={[config.button.borderRadius]}
+                  onValueChange={(value) => updateConfig("button", "borderRadius", value[0])}
+                  min={0}
+                  max={32}
+                  step={1}
+                  className="py-4"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Shadow</Label>
+                <Select
+                  value={config.button.shadow}
+                  onValueChange={(value) => updateConfig("button", "shadow", value)}
+                >
+                  <SelectTrigger className="rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="small">Small</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="large">Large</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Alignment</Label>
+                <Select
+                  value={config.button.alignment}
+                  onValueChange={(value) => updateConfig("button", "alignment", value)}
+                >
+                  <SelectTrigger className="rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="left">Left</SelectItem>
+                    <SelectItem value="center">Center</SelectItem>
+                    <SelectItem value="right">Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Background Color</Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="color"
+                    value={config.button.backgroundColor}
+                    onChange={(e) => updateConfig("button", "backgroundColor", e.target.value)}
+                    className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={config.button.backgroundColor}
+                    onChange={(e) => updateConfig("button", "backgroundColor", e.target.value)}
+                    className="flex-1 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Text Color</Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="color"
+                    value={config.button.textColor}
+                    onChange={(e) => updateConfig("button", "textColor", e.target.value)}
+                    className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={config.button.textColor}
+                    onChange={(e) => updateConfig("button", "textColor", e.target.value)}
+                    className="flex-1 rounded-lg"
+                  />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="gallery" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Gallery Alignment</Label>
+                <Select
+                  value={config.gallery.alignment}
+                  onValueChange={(value) => updateConfig("gallery", "alignment", value)}
+                >
+                  <SelectTrigger className="rounded-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="left">Grid Left</SelectItem>
+                    <SelectItem value="center">Grid Center</SelectItem>
+                    <SelectItem value="right">Grid Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Spacing: {config.gallery.spacing}px
+                </Label>
+                <Slider
+                  value={[config.gallery.spacing]}
+                  onValueChange={(value) => updateConfig("gallery", "spacing", value[0])}
+                  min={0}
+                  max={48}
+                  step={4}
+                  className="py-4"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Border Radius: {config.gallery.borderRadius}px
+                </Label>
+                <Slider
+                  value={[config.gallery.borderRadius]}
+                  onValueChange={(value) => updateConfig("gallery", "borderRadius", value[0])}
+                  min={0}
+                  max={32}
+                  step={1}
+                  className="py-4"
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <Separator className="my-6" />
+
+          <div className="space-y-4">
+            <h3 className="font-semibold text-sm flex items-center gap-2">
+              <Layout className="h-4 w-4" />
+              General Layout
+            </h3>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">
+                Card Corner Radius: {config.layout.cardRadius}px
+              </Label>
+              <Slider
+                value={[config.layout.cardRadius]}
+                onValueChange={(value) => updateConfig("layout", "cardRadius", value[0])}
+                min={0}
+                max={32}
+                step={1}
+                className="py-4"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">
+                Container Padding: {config.layout.containerPadding}px
+              </Label>
+              <Slider
+                value={[config.layout.containerPadding]}
+                onValueChange={(value) => updateConfig("layout", "containerPadding", value[0])}
+                min={0}
+                max={64}
+                step={4}
+                className="py-4"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Section Background Color</Label>
+              <div className="flex gap-2">
+                <Input
+                  type="color"
+                  value={config.layout.backgroundColor}
+                  onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
+                  className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={config.layout.backgroundColor}
+                  onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
+                  className="flex-1 rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          <Separator className="my-6" />
+
+          <div className="space-y-4">
+            <h3 className="font-semibold text-sm flex items-center gap-2">
+              <Palette className="h-4 w-4" />
+              Stroke/Border
+            </h3>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Stroke Color</Label>
+              <div className="flex gap-2">
+                <Input
+                  type="color"
+                  value={config.stroke.color}
+                  onChange={(e) => updateConfig("stroke", "color", e.target.value)}
+                  className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={config.stroke.color}
+                  onChange={(e) => updateConfig("stroke", "color", e.target.value)}
+                  className="flex-1 rounded-lg"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">
+                Stroke Weight: {config.stroke.weight}px
+              </Label>
+              <Slider
+                value={[config.stroke.weight]}
+                onValueChange={(value) => updateConfig("stroke", "weight", value[0])}
+                min={0}
+                max={8}
+                step={1}
+                className="py-4"
+              />
+            </div>
+          </div>
+        </div>
+      </ScrollArea>
+    </div>
+  );
+};
