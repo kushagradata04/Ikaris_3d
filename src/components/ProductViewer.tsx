@@ -27,6 +27,11 @@ interface ProductViewerProps {
     spacing: number;
     borderRadius: number;
   };
+  layoutConfig: {
+    cardRadius: number;
+    containerPadding: number;
+    backgroundColor: string;
+  };
 }
 
 const getShadowClass = (shadow: string) => {
@@ -48,7 +53,7 @@ const getGalleryPosition = (alignment: string) => {
   }
 };
 
-export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig }: ProductViewerProps) => {
+export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig, layoutConfig }: ProductViewerProps) => {
   // Gallery thumbnail images
   const galleryImages = [
     galleryImage1,
@@ -95,10 +100,39 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
 
   return (
     <>
-      <div className="relative flex-1 bg-viewer rounded-2xl overflow-hidden min-h-[600px]">
+      <div 
+        className="relative flex-1 overflow-hidden min-h-[600px] shadow-lg"
+        style={{
+          backgroundColor: layoutConfig.backgroundColor,
+          borderRadius: `${layoutConfig.cardRadius}px`,
+          padding: `${layoutConfig.containerPadding}px`,
+        }}
+      >
+        {/* Center - Main Product Image with Zoom functionality */}
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden" style={{ zIndex: 1 }}>
+          <div 
+            className="transition-transform duration-300 ease-in-out"
+            style={{
+              transform: `scale(${zoomLevel / 100})`,
+              maxWidth: '100%',
+              maxHeight: '100%'
+            }}
+          >
+            <img
+              src={mainImages[selectedImageIndex]}
+              alt="Cozy Lounge Chair - Main View"
+              className="w-full h-full object-contain"
+              style={{
+                maxWidth: 'calc(100% - 20px)',
+                maxHeight: 'calc(100% - 20px)'
+              }}
+            />
+          </div>
+        </div>
+
         {/* Thumbnail Gallery with dynamic positioning - Responsive size */}
         <div 
-          className={`absolute top-2 xl:top-4 z-10 ${getGalleryPosition(galleryConfig.alignment)}`}
+          className={`absolute top-2 xl:top-4 z-20 ${getGalleryPosition(galleryConfig.alignment)}`}
         >
           <div 
             className="flex flex-col"
@@ -110,7 +144,7 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
               <button
                 key={index}
                 onClick={() => setSelectedImageIndex(index)}
-                className={`w-12 h-12 xl:w-16 xl:h-16 overflow-hidden border-2 transition-all duration-200 hover:border-accent hover:scale-105 ${
+                className={`w-12 h-10 xl:w-14 xl:h-12 overflow-hidden border-2 transition-all duration-200 hover:border-accent hover:scale-105 ${
                   selectedImageIndex === index
                     ? "border-accent ring-2 ring-accent ring-offset-2 ring-offset-background"
                     : "border-border/50"
@@ -131,7 +165,7 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
         </div>
 
         {/* Right side - Control buttons - Responsive size */}
-        <div className="absolute top-4 xl:top-6 right-2 xl:right-6 flex flex-col gap-2 xl:gap-3 z-10">
+        <div className="absolute top-4 xl:top-6 right-2 xl:right-6 flex flex-col gap-2 xl:gap-3 z-20">
           <Button
             variant="secondary"
             size="icon"
@@ -184,30 +218,8 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
           </Button>
         </div>
 
-        {/* Center - Main Product Image with Zoom functionality */}
-        <div className="w-full h-full flex items-center justify-center p-8 xl:p-12 overflow-hidden">
-          <div 
-            className="transition-transform duration-300 ease-in-out"
-            style={{
-              transform: `scale(${zoomLevel / 100})`,
-              maxWidth: '100%',
-              maxHeight: '100%'
-            }}
-          >
-            <img
-              src={mainImages[selectedImageIndex]}
-              alt="Cozy Lounge Chair - Main View"
-              className="w-full h-full object-contain"
-              style={{
-                maxWidth: 'calc(100% - 20px)',
-                maxHeight: 'calc(100% - 20px)'
-              }}
-            />
-          </div>
-        </div>
-
         {/* Bottom left - View in your room button - Responsive */}
-        <div className="absolute bottom-4 xl:bottom-6 left-2 xl:left-4">
+        <div className="absolute bottom-4 xl:bottom-6 left-2 xl:left-4 z-20">
           <Button
             variant="outline"
             onClick={toggleRoomView}
@@ -225,7 +237,12 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
         </div>
 
         {/* Zoom Level Indicator */}
-        <div className="absolute bottom-4 xl:bottom-6 right-2 xl:right-6 bg-card/80 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-medium">
+        <div 
+          className="absolute bottom-4 xl:bottom-6 right-2 xl:right-6 bg-card/80 backdrop-blur-sm px-3 py-1 text-xs font-medium z-20"
+          style={{
+            borderRadius: `${layoutConfig.cardRadius / 2}px`
+          }}
+        >
           {zoomLevel}%
         </div>
       </div>
@@ -237,8 +254,10 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
           onClick={toggleRoomView}
         >
           <div 
-            className="relative w-full h-[90vh] bg-black rounded-2xl overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            className="relative w-full h-[90vh] bg-black overflow-hidden shadow-2xl"
+            style={{
+              borderRadius: `${layoutConfig.cardRadius}px`
+            }}
           >
             {/* Close Button */}
             <Button
@@ -252,7 +271,12 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
             </Button>
 
             {/* Room View Header */}
-            <div className="absolute top-4 left-4 z-20 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
+            <div 
+              className="absolute top-4 left-4 z-20 bg-card/90 backdrop-blur-sm px-4 py-2 shadow-lg"
+              style={{
+                borderRadius: `${layoutConfig.cardRadius / 2}px`
+              }}
+            >
               <h3 
                 className="text-lg font-semibold text-foreground"
                 style={{
@@ -285,7 +309,12 @@ export const ProductViewer = ({ layout, fontConfig, buttonConfig, galleryConfig 
             </div>
 
             {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg z-20">
+            <div 
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm px-4 py-2 shadow-lg z-20"
+              style={{
+                borderRadius: `${layoutConfig.cardRadius / 2}px`
+              }}
+            >
               <p 
                 className="text-sm font-medium"
                 style={{

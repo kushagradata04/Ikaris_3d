@@ -31,7 +31,7 @@ interface UIEditorProps {
 }
 
 export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConfig }: UIEditorProps) => {
-  // FIXED: Initialize state from props instead of hardcoded values
+  // Initialize state from props instead of hardcoded values
   const [config, setConfig] = useState({
     typography: {
       fontFamily: fontConfig.fontFamily,
@@ -94,7 +94,7 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
       <ScrollArea className="h-[calc(100vh-12rem)]">
         <div className="p-4">
           <Tabs defaultValue="typography" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-secondary h-auto p-1">
+            <TabsList className="grid w-full grid-cols-4 bg-secondary h-auto p-1">
               <TabsTrigger value="typography" className="text-xs py-2">
                 <Type className="h-3 w-3 mr-1" />
                 Type
@@ -106,6 +106,10 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
               <TabsTrigger value="gallery" className="text-xs py-2">
                 <Image className="h-3 w-3 mr-1" />
                 Gallery
+              </TabsTrigger>
+              <TabsTrigger value="layout" className="text-xs py-2">
+                <Layout className="h-3 w-3 mr-1" />
+                Layout
               </TabsTrigger>
             </TabsList>
 
@@ -319,103 +323,96 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
                 />
               </div>
             </TabsContent>
+
+            <TabsContent value="layout" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Card Corner Radius: {config.layout.cardRadius}px
+                </Label>
+                <Slider
+                  value={[config.layout.cardRadius]}
+                  onValueChange={(value) => updateConfig("layout", "cardRadius", value[0])}
+                  min={0}
+                  max={32}
+                  step={1}
+                  className="py-4"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Container Padding: {config.layout.containerPadding}px
+                </Label>
+                <Slider
+                  value={[config.layout.containerPadding]}
+                  onValueChange={(value) => updateConfig("layout", "containerPadding", value[0])}
+                  min={0}
+                  max={64}
+                  step={4}
+                  className="py-4"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Section Background Color</Label>
+                <div className="flex gap-2">
+                  <Input
+                    type="color"
+                    value={config.layout.backgroundColor}
+                    onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
+                    className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={config.layout.backgroundColor}
+                    onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
+                    className="flex-1 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <Separator className="my-6" />
+
+              <div className="space-y-4">
+                <h3 className="font-semibold text-sm flex items-center gap-2">
+                  <Palette className="h-4 w-4" />
+                  Stroke/Border
+                </h3>
+
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Stroke Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={config.stroke.color}
+                      onChange={(e) => updateConfig("stroke", "color", e.target.value)}
+                      className="w-16 h-10 p-1 rounded-lg cursor-pointer"
+                    />
+                    <Input
+                      type="text"
+                      value={config.stroke.color}
+                      onChange={(e) => updateConfig("stroke", "color", e.target.value)}
+                      className="flex-1 rounded-lg"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">
+                    Stroke Weight: {config.stroke.weight}px
+                  </Label>
+                  <Slider
+                    value={[config.stroke.weight]}
+                    onValueChange={(value) => updateConfig("stroke", "weight", value[0])}
+                    min={0}
+                    max={8}
+                    step={1}
+                    className="py-4"
+                  />
+                </div>
+              </div>
+            </TabsContent>
           </Tabs>
-
-          <Separator className="my-6" />
-
-          <div className="space-y-4">
-            <h3 className="font-semibold text-sm flex items-center gap-2">
-              <Layout className="h-4 w-4" />
-              General Layout
-            </h3>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">
-                Card Corner Radius: {config.layout.cardRadius}px
-              </Label>
-              <Slider
-                value={[config.layout.cardRadius]}
-                onValueChange={(value) => updateConfig("layout", "cardRadius", value[0])}
-                min={0}
-                max={32}
-                step={1}
-                className="py-4"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">
-                Container Padding: {config.layout.containerPadding}px
-              </Label>
-              <Slider
-                value={[config.layout.containerPadding]}
-                onValueChange={(value) => updateConfig("layout", "containerPadding", value[0])}
-                min={0}
-                max={64}
-                step={4}
-                className="py-4"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Section Background Color</Label>
-              <div className="flex gap-2">
-                <Input
-                  type="color"
-                  value={config.layout.backgroundColor}
-                  onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
-                  className="w-16 h-10 p-1 rounded-lg cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={config.layout.backgroundColor}
-                  onChange={(e) => updateConfig("layout", "backgroundColor", e.target.value)}
-                  className="flex-1 rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
-
-          <Separator className="my-6" />
-
-          <div className="space-y-4">
-            <h3 className="font-semibold text-sm flex items-center gap-2">
-              <Palette className="h-4 w-4" />
-              Stroke/Border
-            </h3>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Stroke Color</Label>
-              <div className="flex gap-2">
-                <Input
-                  type="color"
-                  value={config.stroke.color}
-                  onChange={(e) => updateConfig("stroke", "color", e.target.value)}
-                  className="w-16 h-10 p-1 rounded-lg cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={config.stroke.color}
-                  onChange={(e) => updateConfig("stroke", "color", e.target.value)}
-                  className="flex-1 rounded-lg"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">
-                Stroke Weight: {config.stroke.weight}px
-              </Label>
-              <Slider
-                value={[config.stroke.weight]}
-                onValueChange={(value) => updateConfig("stroke", "weight", value[0])}
-                min={0}
-                max={8}
-                step={1}
-                className="py-4"
-              />
-            </div>
-          </div>
         </div>
       </ScrollArea>
     </div>

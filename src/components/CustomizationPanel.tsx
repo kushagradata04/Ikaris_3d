@@ -17,6 +17,11 @@ interface CustomizationPanelProps {
     backgroundColor: string;
     textColor: string;
   };
+  layoutConfig: {
+    cardRadius: number;
+    containerPadding: number;
+    backgroundColor: string;
+  };
 }
 
 const getShadowClass = (shadow: string) => {
@@ -38,9 +43,16 @@ const getAlignmentClass = (alignment: string) => {
   }
 };
 
-export const CustomizationPanel = ({ fontConfig, buttonConfig }: CustomizationPanelProps) => {
+export const CustomizationPanel = ({ fontConfig, buttonConfig, layoutConfig }: CustomizationPanelProps) => {
   return (
-    <div className="w-full lg:w-96 bg-panel rounded-2xl shadow-lg p-6 space-y-6">
+    <div 
+      className="w-full lg:w-96 shadow-lg space-y-6"
+      style={{
+        backgroundColor: layoutConfig.backgroundColor,
+        borderRadius: `${layoutConfig.cardRadius}px`,
+        padding: `${layoutConfig.containerPadding}px`,
+      }}
+    >
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="space-y-1">
@@ -65,7 +77,13 @@ export const CustomizationPanel = ({ fontConfig, buttonConfig }: CustomizationPa
             Premium comfortable seating
           </p>
         </div>
-        <Button variant="ghost" size="icon" className="rounded-xl">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          style={{
+            borderRadius: `${layoutConfig.cardRadius}px`
+          }}
+        >
           <ChevronDown className="h-5 w-5" />
         </Button>
       </div>
@@ -85,31 +103,42 @@ export const CustomizationPanel = ({ fontConfig, buttonConfig }: CustomizationPa
           >
             Customize your Chair
           </h2>
-          <Button variant="ghost" size="icon" className="rounded-xl">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            style={{
+              borderRadius: `${layoutConfig.cardRadius}px`
+            }}
+          >
             <Settings2 className="h-5 w-5" />
           </Button>
         </div>
 
         <Tabs defaultValue="arms" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-secondary">
+          <TabsList 
+            className="grid w-full grid-cols-2 bg-secondary"
+            style={{
+              borderRadius: `${layoutConfig.cardRadius / 2}px`
+            }}
+          >
             <TabsTrigger 
               value="arms" 
-              className="rounded-lg"
               style={{
                 fontFamily: fontConfig.fontFamily,
                 fontWeight: fontConfig.fontWeight,
-                fontSize: `${fontConfig.fontSize}px`
+                fontSize: `${fontConfig.fontSize}px`,
+                borderRadius: `${layoutConfig.cardRadius / 2}px`
               }}
             >
               Arms
             </TabsTrigger>
             <TabsTrigger 
               value="finish" 
-              className="rounded-lg"
               style={{
                 fontFamily: fontConfig.fontFamily,
                 fontWeight: fontConfig.fontWeight,
-                fontSize: `${fontConfig.fontSize}px`
+                fontSize: `${fontConfig.fontSize}px`,
+                borderRadius: `${layoutConfig.cardRadius / 2}px`
               }}
             >
               Arm Finish

@@ -36,14 +36,23 @@ const Index = () => {
       borderRadius: 12,
       shadow: "medium",
       alignment: "center",
-      backgroundColor: "#ef4444",  // Changed from "#3b82f6" (blue) to "#ef4444" (red)
+      backgroundColor: "#ef4444",
       textColor: "#ffffff",
     },
     gallery: {
       alignment: "left",
       spacing: 12,
       borderRadius: 8,
-    }
+    },
+    layout: {
+      cardRadius: 16,
+      containerPadding: 24,
+      backgroundColor: "#ffffff",
+    },
+    stroke: {
+      color: "#e5e5e5",
+      weight: 1,
+    },
   });
 
   // Load Google Fonts on component mount
@@ -114,7 +123,13 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
+      <main 
+        className="container mx-auto py-6"
+        style={{
+          paddingLeft: `${uiConfig.layout.containerPadding}px`,
+          paddingRight: `${uiConfig.layout.containerPadding}px`,
+        }}
+      >
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Product Viewer */}
           <ProductViewer 
@@ -122,12 +137,14 @@ const Index = () => {
             fontConfig={uiConfig.typography} 
             buttonConfig={uiConfig.button}
             galleryConfig={uiConfig.gallery}
+            layoutConfig={uiConfig.layout}
           />
 
           {/* Customization Panel */}
           <CustomizationPanel 
             fontConfig={uiConfig.typography}
             buttonConfig={uiConfig.button}
+            layoutConfig={uiConfig.layout}
           />
 
           {/* UI Editor Panel */}
