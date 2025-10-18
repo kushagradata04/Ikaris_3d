@@ -31,23 +31,24 @@ interface UIEditorProps {
 }
 
 export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConfig }: UIEditorProps) => {
+  // FIXED: Initialize state from props instead of hardcoded values
   const [config, setConfig] = useState({
     typography: {
-      fontFamily: "Inter",
-      fontWeight: "400",
-      fontSize: 16,
+      fontFamily: fontConfig.fontFamily,
+      fontWeight: fontConfig.fontWeight,
+      fontSize: fontConfig.fontSize,
     },
     button: {
-      borderRadius: 12,
-      shadow: "medium",
-      alignment: "center",
-      backgroundColor: "#ef4444",
-      textColor: "#ffffff",
+      borderRadius: buttonConfig.borderRadius,
+      shadow: buttonConfig.shadow,
+      alignment: buttonConfig.alignment,
+      backgroundColor: buttonConfig.backgroundColor,
+      textColor: buttonConfig.textColor,
     },
     gallery: {
-      alignment: "center",
-      spacing: 12,
-      borderRadius: 8,
+      alignment: galleryConfig.alignment,
+      spacing: galleryConfig.spacing,
+      borderRadius: galleryConfig.borderRadius,
     },
     layout: {
       cardRadius: 16,
