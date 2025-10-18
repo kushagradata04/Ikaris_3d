@@ -23,9 +23,14 @@ interface UIEditorProps {
     backgroundColor: string;
     textColor: string;
   };
+  galleryConfig: {
+    alignment: string;
+    spacing: number;
+    borderRadius: number;
+  };
 }
 
-export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig }: UIEditorProps) => {
+export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConfig }: UIEditorProps) => {
   const [config, setConfig] = useState({
     typography: {
       fontFamily: "Inter",

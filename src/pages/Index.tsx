@@ -36,8 +36,13 @@ const Index = () => {
       borderRadius: 12,
       shadow: "medium",
       alignment: "center",
-      backgroundColor: "#3b82f6",
+      backgroundColor: "#ef4444",  // Changed from "#3b82f6" (blue) to "#ef4444" (red)
       textColor: "#ffffff",
+    },
+    gallery: {
+      alignment: "left",
+      spacing: 12,
+      borderRadius: 8,
     }
   });
 
@@ -116,6 +121,7 @@ const Index = () => {
             layout={layout} 
             fontConfig={uiConfig.typography} 
             buttonConfig={uiConfig.button}
+            galleryConfig={uiConfig.gallery}
           />
 
           {/* Customization Panel */}
@@ -131,6 +137,7 @@ const Index = () => {
                 onConfigChange={handleConfigChange} 
                 fontConfig={uiConfig.typography}
                 buttonConfig={uiConfig.button}
+                galleryConfig={uiConfig.gallery}
               />
             </div>
           )}
