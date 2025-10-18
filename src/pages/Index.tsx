@@ -51,8 +51,8 @@ const Index = () => {
       backgroundColor: "#ffffff",
     },
     stroke: {
-      color: "#e5e5e5",
-      weight: 1,
+      color: "#000000",
+      weight: 2,
     },
   });
 
@@ -75,17 +75,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 
-            className="text-xl font-bold text-foreground"
-            style={{
-              fontFamily: uiConfig.typography.fontFamily,
-              fontWeight: Math.max(600, parseInt(uiConfig.typography.fontWeight)),
-              fontSize: `${Math.min(uiConfig.typography.fontSize * 1.25, 32)}px`
-            }}
-          >
-            Product Configurator
-          </h1>
+        <div className="container mx-auto px-4 py-4 flex items-center justify-end">
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -147,6 +137,7 @@ const Index = () => {
             fontConfig={uiConfig.typography}
             buttonConfig={uiConfig.button}
             layoutConfig={uiConfig.layout}
+            strokeConfig={uiConfig.stroke}
             materialLayout={materialLayout}
           />
 

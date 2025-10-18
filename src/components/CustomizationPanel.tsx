@@ -28,6 +28,10 @@ interface CustomizationPanelProps {
     containerPadding: number;
     backgroundColor: string;
   };
+  strokeConfig: {
+    color: string;
+    weight: number;
+  };
   materialLayout: "vertical" | "horizontal";
 }
 

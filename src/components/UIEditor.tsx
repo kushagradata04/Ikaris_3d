@@ -56,8 +56,8 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
       backgroundColor: "#ffffff",
     },
     stroke: {
-      color: "#e5e5e5",
-      weight: 1,
+      color: "#000000",
+      weight: 2,
     },
   });
 
@@ -404,8 +404,8 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
                   <Slider
                     value={[config.stroke.weight]}
                     onValueChange={(value) => updateConfig("stroke", "weight", value[0])}
-                    min={0}
-                    max={8}
+                    min={1}
+                    max={10}
                     step={1}
                     className="py-4"
                   />
