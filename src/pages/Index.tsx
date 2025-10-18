@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ProductViewer } from "@/components/ProductViewer";
 import { CustomizationPanel } from "@/components/CustomizationPanel";
 import UIEditor from "@/components/UIEditor";
-import { Settings2, LayoutGrid } from "lucide-react";
+import { Settings2, Grid3x3, List, LayoutGrid } from "lucide-react";
 
 // Load Google Fonts
 const loadGoogleFonts = () => {
@@ -25,7 +25,7 @@ const getShadowClass = (shadow: string) => {
 
 const Index = () => {
   const [showEditor, setShowEditor] = useState(false);
-  const [layout, setLayout] = useState<"default" | "alternate">("default");
+  const [materialLayout, setMaterialLayout] = useState<"vertical" | "horizontal">("vertical");
   const [uiConfig, setUIConfig] = useState({
     typography: {
       fontFamily: "Inter",
@@ -65,9 +65,8 @@ const Index = () => {
     console.log("UI Config updated:", config);
   };
 
-  const toggleLayout = () => {
-    const newLayout = layout === "default" ? "alternate" : "default";
-    setLayout(newLayout);
+  const toggleMaterialLayout = () => {
+    setMaterialLayout(prev => prev === "vertical" ? "horizontal" : "vertical");
   };
 
   return (
@@ -89,7 +88,7 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={toggleLayout}
+              onClick={toggleMaterialLayout}
               className={`transition-shadow ${getShadowClass(uiConfig.button.shadow)}`}
               style={{
                 fontFamily: uiConfig.typography.fontFamily,
@@ -99,7 +98,7 @@ const Index = () => {
               }}
             >
               <LayoutGrid className="h-4 w-4 mr-2" />
-              Switch Layout
+              {materialLayout === "vertical" ? "Grid View" : "List View"}
             </Button>
             <Button
               variant={showEditor ? "default" : "outline"}
@@ -133,7 +132,7 @@ const Index = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Product Viewer */}
           <ProductViewer 
-            layout={layout} 
+            layout="default"
             fontConfig={uiConfig.typography} 
             buttonConfig={uiConfig.button}
             galleryConfig={uiConfig.gallery}
@@ -145,6 +144,7 @@ const Index = () => {
             fontConfig={uiConfig.typography}
             buttonConfig={uiConfig.button}
             layoutConfig={uiConfig.layout}
+            materialLayout={materialLayout}
           />
 
           {/* UI Editor Panel */}
