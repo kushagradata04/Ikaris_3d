@@ -16,9 +16,16 @@ interface UIEditorProps {
     fontWeight: string;
     fontSize: number;
   };
+  buttonConfig: {
+    borderRadius: number;
+    shadow: string;
+    alignment: string;
+    backgroundColor: string;
+    textColor: string;
+  };
 }
 
-export const UIEditor = ({ onConfigChange, fontConfig }: UIEditorProps) => {
+export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig }: UIEditorProps) => {
   const [config, setConfig] = useState({
     typography: {
       fontFamily: "Inter",

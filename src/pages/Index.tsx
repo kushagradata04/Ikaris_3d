@@ -13,6 +13,16 @@ const loadGoogleFonts = () => {
   document.head.appendChild(link);
 };
 
+const getShadowClass = (shadow: string) => {
+  switch (shadow) {
+    case "none": return "";
+    case "small": return "shadow-sm";
+    case "medium": return "shadow-md";
+    case "large": return "shadow-lg";
+    default: return "shadow-md";
+  }
+};
+
 const Index = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [layout, setLayout] = useState<"default" | "alternate">("default");
@@ -21,6 +31,13 @@ const Index = () => {
       fontFamily: "Inter",
       fontWeight: "400",
       fontSize: 16,
+    },
+    button: {
+      borderRadius: 12,
+      shadow: "medium",
+      alignment: "center",
+      backgroundColor: "#3b82f6",
+      textColor: "#ffffff",
     }
   });
 
@@ -59,11 +76,12 @@ const Index = () => {
               variant="outline"
               size="sm"
               onClick={toggleLayout}
-              className="rounded-lg"
+              className={`transition-shadow ${getShadowClass(uiConfig.button.shadow)}`}
               style={{
                 fontFamily: uiConfig.typography.fontFamily,
                 fontWeight: uiConfig.typography.fontWeight,
-                fontSize: `${Math.max(12, uiConfig.typography.fontSize - 2)}px`
+                fontSize: `${Math.max(12, uiConfig.typography.fontSize - 2)}px`,
+                borderRadius: `${uiConfig.button.borderRadius}px`
               }}
             >
               <LayoutGrid className="h-4 w-4 mr-2" />
@@ -73,11 +91,14 @@ const Index = () => {
               variant={showEditor ? "default" : "outline"}
               size="sm"
               onClick={() => setShowEditor(!showEditor)}
-              className="rounded-[8px]"
+              className={`transition-shadow ${getShadowClass(uiConfig.button.shadow)}`}
               style={{
                 fontFamily: uiConfig.typography.fontFamily,
                 fontWeight: uiConfig.typography.fontWeight,
-                fontSize: `${Math.max(12, uiConfig.typography.fontSize - 2)}px`
+                fontSize: `${Math.max(12, uiConfig.typography.fontSize - 2)}px`,
+                borderRadius: `${uiConfig.button.borderRadius}px`,
+                backgroundColor: showEditor ? uiConfig.button.backgroundColor : undefined,
+                color: showEditor ? uiConfig.button.textColor : undefined
               }}
             >
               <Settings2 className="h-4 w-4 mr-2" />
@@ -91,15 +112,26 @@ const Index = () => {
       <main className="container mx-auto px-4 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Product Viewer */}
-          <ProductViewer layout={layout} fontConfig={uiConfig.typography} />
+          <ProductViewer 
+            layout={layout} 
+            fontConfig={uiConfig.typography} 
+            buttonConfig={uiConfig.button}
+          />
 
           {/* Customization Panel */}
-          <CustomizationPanel fontConfig={uiConfig.typography} />
+          <CustomizationPanel 
+            fontConfig={uiConfig.typography}
+            buttonConfig={uiConfig.button}
+          />
 
           {/* UI Editor Panel */}
           {showEditor && (
             <div className="w-full lg:w-auto">
-              <UIEditor onConfigChange={handleConfigChange} fontConfig={uiConfig.typography} />
+              <UIEditor 
+                onConfigChange={handleConfigChange} 
+                fontConfig={uiConfig.typography}
+                buttonConfig={uiConfig.button}
+              />
             </div>
           )}
         </div>

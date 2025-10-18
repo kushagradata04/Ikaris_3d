@@ -10,9 +10,35 @@ interface CustomizationPanelProps {
     fontWeight: string;
     fontSize: number;
   };
+  buttonConfig: {
+    borderRadius: number;
+    shadow: string;
+    alignment: string;
+    backgroundColor: string;
+    textColor: string;
+  };
 }
 
-export const CustomizationPanel = ({ fontConfig }: CustomizationPanelProps) => {
+const getShadowClass = (shadow: string) => {
+  switch (shadow) {
+    case "none": return "";
+    case "small": return "shadow-sm";
+    case "medium": return "shadow-md";
+    case "large": return "shadow-lg";
+    default: return "shadow-md";
+  }
+};
+
+const getAlignmentClass = (alignment: string) => {
+  switch (alignment) {
+    case "left": return "justify-start";
+    case "center": return "justify-center";
+    case "right": return "justify-end";
+    default: return "justify-center";
+  }
+};
+
+export const CustomizationPanel = ({ fontConfig, buttonConfig }: CustomizationPanelProps) => {
   return (
     <div className="w-full lg:w-96 bg-panel rounded-2xl shadow-lg p-6 space-y-6">
       {/* Header */}
@@ -124,43 +150,57 @@ export const CustomizationPanel = ({ fontConfig }: CustomizationPanelProps) => {
             $1,299
           </span>
         </div>
-        <Button 
-          className="w-full rounded-xl py-6 text-base font-semibold shadow-md hover:shadow-lg transition-all"
-          style={{
-            fontFamily: fontConfig.fontFamily,
-            fontWeight: Math.max(500, parseInt(fontConfig.fontWeight)),
-            fontSize: `${fontConfig.fontSize}px`
-          }}
-        >
-          Add to Cart
-        </Button>
+        
+        {/* Add to Cart Button with dynamic styling */}
+        <div className={`flex ${getAlignmentClass(buttonConfig.alignment)}`}>
+          <Button 
+            className={`py-6 text-base font-semibold transition-all hover:opacity-90 ${getShadowClass(buttonConfig.shadow)}`}
+            style={{
+              fontFamily: fontConfig.fontFamily,
+              fontWeight: Math.max(500, parseInt(fontConfig.fontWeight)),
+              fontSize: `${fontConfig.fontSize}px`,
+              borderRadius: `${buttonConfig.borderRadius}px`,
+              backgroundColor: buttonConfig.backgroundColor,
+              color: buttonConfig.textColor,
+              width: buttonConfig.alignment === "center" ? "100%" : "auto",
+              minWidth: buttonConfig.alignment !== "center" ? "200px" : "100%"
+            }}
+          >
+            Add to Cart
+          </Button>
+        </div>
       </div>
 
       {/* AR View Button */}
-      <Button
-        variant="outline"
-        className="w-full rounded-xl py-6 text-base font-semibold border-border"
-        style={{
-          fontFamily: fontConfig.fontFamily,
-          fontWeight: Math.max(500, parseInt(fontConfig.fontWeight)),
-          fontSize: `${fontConfig.fontSize}px`
-        }}
-      >
-        <svg
-          className="mr-2 h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div className={`flex ${getAlignmentClass(buttonConfig.alignment)}`}>
+        <Button
+          variant="outline"
+          className={`py-6 text-base font-semibold border-border transition-all hover:bg-secondary ${getShadowClass(buttonConfig.shadow)}`}
+          style={{
+            fontFamily: fontConfig.fontFamily,
+            fontWeight: Math.max(500, parseInt(fontConfig.fontWeight)),
+            fontSize: `${fontConfig.fontSize}px`,
+            borderRadius: `${buttonConfig.borderRadius}px`,
+            width: buttonConfig.alignment === "center" ? "100%" : "auto",
+            minWidth: buttonConfig.alignment !== "center" ? "200px" : "100%"
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
-          />
-        </svg>
-        AR View
-      </Button>
+          <svg
+            className="mr-2 h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
+            />
+          </svg>
+          AR View
+        </Button>
+      </div>
     </div>
   );
 };
