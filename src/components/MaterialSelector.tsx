@@ -17,6 +17,7 @@ interface MaterialSelectorProps {
     fontSize: number;
   };
   layout?: "vertical" | "horizontal";
+  onSelectionChange?: (material: string, color: string, colorName: string) => void;
 }
 
 const materials: MaterialType[] = [

@@ -54,9 +54,16 @@ export const CustomizationPanel = ({ fontConfig, buttonConfig, layoutConfig, mat
   const [expandedSection, setExpandedSection] = useState<number | null>(2);
   const [selectedArms, setSelectedArms] = useState("Fixed Arms");
   const [selectedLegsFinish, setSelectedLegsFinish] = useState("Steel");
+  const [selectedArmsFinish, setSelectedArmsFinish] = useState("Leather Dark Brown");
 
   const toggleSection = (section: number) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  const handleMaterialSelection = (material: string, color: string, colorName: string) => {
+    // Format: "Leather Brown" or "Silicon Brown"
+    const formattedMaterial = material.charAt(0) + material.slice(1).toLowerCase();
+    setSelectedArmsFinish(`${formattedMaterial} ${colorName}`);
   };
 
   return (
@@ -222,7 +229,7 @@ export const CustomizationPanel = ({ fontConfig, buttonConfig, layoutConfig, mat
                       fontSize: `${Math.max(12, fontConfig.fontSize - 2)}px`
                     }}
                   >
-                    Leather Brown
+                    {selectedArmsFinish}
                   </p>
                 </div>
               </div>
@@ -234,7 +241,11 @@ export const CustomizationPanel = ({ fontConfig, buttonConfig, layoutConfig, mat
             </button>
             {expandedSection === 2 && (
               <div className="p-4 pt-0">
-                <MaterialSelector fontConfig={fontConfig} layout={materialLayout} />
+                <MaterialSelector 
+                  fontConfig={fontConfig} 
+                  layout={materialLayout}
+                  onSelectionChange={handleMaterialSelection}
+                />
               </div>
             )}
           </div>
