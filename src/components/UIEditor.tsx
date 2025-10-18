@@ -111,6 +111,10 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
                 <Layout className="h-4 w-4 mr-2" />
                 Layout
               </TabsTrigger>
+              <TabsTrigger value="stroke" className="text-xs py-3 px-2 w-full justify-start">
+                <Palette className="h-4 w-4 mr-2" />
+                Stroke
+              </TabsTrigger>
             </TabsList>
 
             {/* Tab Content with Scrollbar */}
@@ -374,13 +378,13 @@ export const UIEditor = ({ onConfigChange, fontConfig, buttonConfig, galleryConf
                         />
                       </div>
                     </div>
+                  </TabsContent>
 
-                    <Separator className="my-6" />
-
+                  <TabsContent value="stroke" className="space-y-4 mt-0">
                     <div className="space-y-4">
                       <h3 className="font-semibold text-sm flex items-center gap-2">
                         <Palette className="h-4 w-4" />
-                        Stroke/Border
+                        Stroke/Border Settings
                       </h3>
 
                       <div className="space-y-2">
