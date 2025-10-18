@@ -25,7 +25,8 @@ const getShadowClass = (shadow: string) => {
 
 const Index = () => {
   const [showEditor, setShowEditor] = useState(false);
-  const [materialLayout, setMaterialLayout] = useState<"vertical" | "horizontal">("vertical");
+  // FIXED: Changed initial state to "horizontal" so it starts with the desired layout
+  const [materialLayout, setMaterialLayout] = useState<"vertical" | "horizontal">("horizontal");
   const [uiConfig, setUIConfig] = useState({
     typography: {
       fontFamily: "Inter",
@@ -66,7 +67,8 @@ const Index = () => {
   };
 
   const toggleMaterialLayout = () => {
-    setMaterialLayout(prev => prev === "vertical" ? "horizontal" : "vertical");
+    // FIXED: Reversed the toggle logic - horizontal becomes vertical and vice versa
+    setMaterialLayout(prev => prev === "horizontal" ? "vertical" : "horizontal");
   };
 
   return (
@@ -98,7 +100,8 @@ const Index = () => {
               }}
             >
               <LayoutGrid className="h-4 w-4 mr-2" />
-              {materialLayout === "vertical" ? "Grid View" : "List View"}
+              {/* FIXED: Reversed the button text to match the actual layout */}
+              {materialLayout === "horizontal" ? "List View" : "Grid View"}
             </Button>
             <Button
               variant={showEditor ? "default" : "outline"}

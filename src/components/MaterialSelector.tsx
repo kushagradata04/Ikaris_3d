@@ -44,6 +44,11 @@ const materials: MaterialType[] = [
       { name: "Teal", value: "#507b74" },
       { name: "Forest", value: "#4a685e" },
       { name: "Navy", value: "#525968" },
+      { name: "Purple", value: "#5d4d62" },
+      { name: "Blue", value: "#3d5468" },
+      { name: "Red", value: "#8d5854" },
+      { name: "Burgundy", value: "#6b3e3e" },
+      { name: "Green", value: "#3d7068" },
     ],
   },
   {
@@ -54,6 +59,56 @@ const materials: MaterialType[] = [
       { name: "Teal", value: "#507b74" },
       { name: "Navy", value: "#525968" },
       { name: "Dark Navy", value: "#454554" },
+      { name: "Purple", value: "#5d4d62" },
+      { name: "Blue", value: "#3d5468" },
+      { name: "Red", value: "#8d5854" },
+      { name: "Burgundy", value: "#6b3e3e" },
+      { name: "Green", value: "#3d7068" },
+    ],
+  },
+  {
+    name: "STEEL",
+    colors: [
+      { name: "Silver", value: "#c0c0c0" },
+      { name: "Dark Steel", value: "#4a5568" },
+      { name: "Gunmetal", value: "#5a5a5a" },
+      { name: "Chrome", value: "#b8b8b8" },
+      { name: "Brushed Steel", value: "#8c8c8c" },
+      { name: "Navy", value: "#525968" },
+      { name: "Blue", value: "#3d5468" },
+      { name: "Dark Gray", value: "#4a4a4a" },
+      { name: "Slate", value: "#6a7280" },
+      { name: "Charcoal", value: "#3a3a3a" },
+    ],
+  },
+  {
+    name: "POLYESTER",
+    colors: [
+      { name: "Light Gray", value: "#9ca3af" },
+      { name: "Purple", value: "#5d4d62" },
+      { name: "Navy", value: "#525968" },
+      { name: "Blue", value: "#3d5468" },
+      { name: "Red", value: "#8d5854" },
+      { name: "Burgundy", value: "#6b3e3e" },
+      { name: "Green", value: "#3d7068" },
+      { name: "Teal", value: "#507b74" },
+      { name: "Forest", value: "#4a685e" },
+      { name: "Black", value: "#2d2d2d" },
+    ],
+  },
+  {
+    name: "PLAST",
+    colors: [
+      { name: "White", value: "#f3f4f6" },
+      { name: "Light Gray", value: "#d1d5db" },
+      { name: "Gray", value: "#9ca3af" },
+      { name: "Dark Gray", value: "#6b7280" },
+      { name: "Charcoal", value: "#4b5563" },
+      { name: "Navy", value: "#525968" },
+      { name: "Blue", value: "#3d5468" },
+      { name: "Red", value: "#8d5854" },
+      { name: "Green", value: "#3d7068" },
+      { name: "Black", value: "#1f2937" },
     ],
   },
 ];
@@ -64,25 +119,26 @@ export const MaterialSelector = ({ fontConfig, layout = "vertical" }: MaterialSe
   const [selectedMaterial, setSelectedMaterial] = useState("LEATHER");
   const [selectedColor, setSelectedColor] = useState("#3d3230");
 
+  // FIXED: Horizontal layout (Grid View) - shows tabs across the top with all colors in grid below
   if (layout === "horizontal") {
     return (
-      <div className="flex gap-4">
-        {/* Left side - Material tabs */}
-        <div className="flex flex-col gap-2 min-w-[100px]">
+      <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 bg-white p-4 rounded-lg">
+        {/* Material tabs across the top */}
+        <div className="grid grid-cols-3 gap-2 sticky top-0 bg-white z-10 pb-2">
           {materials.map((material) => (
             <button
               key={material.name}
               onClick={() => setSelectedMaterial(material.name)}
               className={cn(
-                "px-3 py-2 text-left text-xs font-medium rounded-md transition-colors",
+                "px-4 py-2 text-sm font-medium rounded-md transition-colors text-center",
                 selectedMaterial === material.name
                   ? "bg-accent text-accent-foreground"
-                  : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
+                  : "bg-white text-muted-foreground hover:bg-white/80 border border-border"
               )}
               style={{
                 fontFamily: fontConfig.fontFamily,
                 fontWeight: fontConfig.fontWeight,
-                fontSize: `${Math.max(10, fontConfig.fontSize - 4)}px`
+                fontSize: `${Math.max(12, fontConfig.fontSize - 2)}px`
               }}
             >
               {material.name.charAt(0) + material.name.slice(1).toLowerCase()}
@@ -90,40 +146,28 @@ export const MaterialSelector = ({ fontConfig, layout = "vertical" }: MaterialSe
           ))}
         </div>
 
-        {/* Right side - Color grid */}
-        <div className="flex-1">
+        {/* Color grid below - shows all colors for selected material */}
+        <div>
           {materials.map((material) => (
             selectedMaterial === material.name && (
-              <div key={material.name}>
-                <h3 
-                  className="text-xs font-medium text-muted-foreground tracking-wide mb-3 uppercase"
-                  style={{
-                    fontFamily: fontConfig.fontFamily,
-                    fontWeight: fontConfig.fontWeight,
-                    fontSize: `${Math.max(10, fontConfig.fontSize - 4)}px`
-                  }}
-                >
-                  {material.name}
-                </h3>
-                <div className="grid grid-cols-5 gap-3">
-                  {material.colors.map((color) => (
-                    <button
-                      key={color.name}
-                      onClick={() => {
-                        setSelectedMaterial(material.name);
-                        setSelectedColor(color.value);
-                      }}
-                      className={cn(
-                        "w-full aspect-square rounded-full border-2 transition-all hover:scale-110",
-                        selectedMaterial === material.name && selectedColor === color.value
-                          ? "border-accent ring-2 ring-accent ring-offset-2 ring-offset-background"
-                          : "border-border/30 hover:border-border"
-                      )}
-                      style={{ backgroundColor: color.value }}
-                      title={color.name}
-                    />
-                  ))}
-                </div>
+              <div key={material.name} className="grid grid-cols-5 gap-3">
+                {material.colors.map((color) => (
+                  <button
+                    key={color.name}
+                    onClick={() => {
+                      setSelectedMaterial(material.name);
+                      setSelectedColor(color.value);
+                    }}
+                    className={cn(
+                      "w-full aspect-square rounded-full border-2 transition-all hover:scale-110",
+                      selectedMaterial === material.name && selectedColor === color.value
+                        ? "border-accent ring-2 ring-accent ring-offset-2 ring-offset-background"
+                        : "border-border/30 hover:border-border"
+                    )}
+                    style={{ backgroundColor: color.value }}
+                    title={color.name}
+                  />
+                ))}
               </div>
             )
           ))}
@@ -132,9 +176,9 @@ export const MaterialSelector = ({ fontConfig, layout = "vertical" }: MaterialSe
     );
   }
 
-  // Vertical layout (default)
+  // FIXED: Vertical layout (List View) - shows all materials stacked with their colors below each
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
       {materials.map((material) => (
         <div key={material.name} className="space-y-3">
           <h3 
